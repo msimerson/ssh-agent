@@ -1,6 +1,10 @@
 
 # VERSION - CHANGES
 
+### 1.05 - Nov 12, 2013
+
+* use TMPDIR if defined, default to /tmp (was hard coded /tmp)
+
 ### 1.04 - Mar 25, 2011 (abe ingersoll)
 
 * bash didn't like `grep`, call normally and check $? instead
