@@ -8,12 +8,12 @@ of a workstation, significantly reducing the complexity of using ssh-agent.
 
 1. Install to $HOME/.ssh directory as agent.sh
 
-   curl -o .ssh/agent.sh https://github.com/msimerson/ssh-agent/blob/master/agent.sh
-   chmod 755 .ssh/agent.sh
+    curl -o .ssh/agent.sh https://github.com/msimerson/ssh-agent/blob/master/agent.sh
+    chmod 755 .ssh/agent.sh
 
 2. Run it when new terminal windows open
 
-   echo 'source .ssh/agent.sh' >> ~/.bash\_profile
+    echo 'source .ssh/agent.sh' >> ~/.bash\_profile
 
 3. Open new terminal/shell sessions
 
