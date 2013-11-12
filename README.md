@@ -8,15 +8,16 @@ of a workstation, significantly reducing the complexity of using ssh-agent.
 INSTALL
 =========
 
-#. Install this script in your ~/.ssh directory as agent.sh
+1. Install to $HOME/.ssh directory as agent.sh
 
    curl -o .ssh/agent.sh http://www.tnpi.net/computing/mac/agent.sh.txt
    chmod 755 .ssh/agent.sh
 
-#. Configure it to run when a new terminal window opens
+2. Run it when new terminal windows open
 
    echo 'source .ssh/agent.sh' >> ~/.bash_profile
 
-#. Open new terminal/shell sessions
+3. Open new terminal/shell sessions
 
-#. Enjoy
+4. Enjoy
+
