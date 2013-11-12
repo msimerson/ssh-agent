@@ -1,48 +1,29 @@
 #!/bin/sh
 
-# AUTHOR:  Matt Simerson (matt@tnpi.net)
+# ssh-agent
 #
-# VERSIONS:
-#  1.04 - Mar 25, 2011 (abe ingersoll)
-#     - bash didn't like `grep`, call normally and check $? instead
-#  1.03 - May 24, 2010
-#     - test agent socket file, restart ssh-agent if socket is stale
-#     - moved set_socket_file into its own sub
-#  1.02 - Dec 16, 2007
-#     - adjusted ps invocation for reliable detection when multiple 
-#     - users run ssh-agent on a single system
-#  1.01 - Oct 9, 2007 
-#     - when cleaning up stale agent, remove stale sock file
-#  1.0  - July, 2007
-#     - initial release
+# autoloads the ssh-agent and keys into each terminal session, so we
+# can use ssh-agent without thinking about it.
+#
+# https://github.com/msimerson/ssh-agent/
+#
+# VERSION: 1.04 
+#    https://github.com/msimerson/ssh-agent/blob/master/Changes.md
 #
 # GUI APPLICATIONS
 #
 #   If you use GUI apps that are ssh-agent aware, you will need to run the
-#   script once and then log out and back in. Then your GUI apps will be
+#   script once, log out, and log back in. Then your GUI apps will be
 #   ssh-agent aware.
 
 unset _sockfile
 _agent_opts=""   # set any desired ssh-agent options here
 
-### begin SSH-AGENT SOCKET NOTES
-#
-# Setting _sockfile is an efficiency improvement. Rather than storing the 
-# ssh socket file in /tmp/ssh-XXXXXXXXXX/agent.<ppid> and having to glob 
-# to find it, we can store it in a fixed location so this script can find
-# it more efficiently. Since all our shell/terminal windows will share the
-# first ssh-agent process, there is no need for the random location.
-#
-# If you decide to alter the location, keep security in mind. You do not want
-# others to have access to this socket. Your ~/.ssh directory is a great
-# choice because its default permissions (600) are readable only by you.
-#
-# If you wish to keep the default /tmp behavior, simply comment out this
-# setting
-#
+# use env $TMPDIR if defined, otherwise default to /tmp
+TMPDIR=${1-/tmp}
+
+# See README file, SSH-AGENT SOCKET note
 _sockfile="${HOME}/.ssh/agent.sock"
-#
-### end SSH-AGENT SOCKET NOTES
 
 if [ "$0" != "-bash" ];
 then
@@ -104,7 +85,7 @@ set_socket_file()
     if [ -z "$_sockfile" ] || [ ! -e "$_sockfile" ];
     then
         _sock_pid=`echo "${_agent_pid} - 1" | bc`
-        _sockfile=`/bin/ls /tmp/ssh-*/agent.${_sock_pid}`
+        _sockfile=`/bin/ls $TMPDIR/ssh-*/agent.${_sock_pid}`
     fi
 
     if [ ! -e "$_sockfile" ];
