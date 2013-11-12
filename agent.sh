@@ -7,7 +7,7 @@
 #
 # https://github.com/msimerson/ssh-agent/
 #
-# VERSION: 1.04 
+# VERSION: 1.05
 #    https://github.com/msimerson/ssh-agent/blob/master/Changes.md
 #
 # GUI APPLICATIONS
@@ -44,7 +44,7 @@ main()
     discover_ssh_agent
 
 #   1. ssh-agent not running.
-    if [ -z "${_agent_pid}" ];    
+    if [ -z "${_agent_pid}" ];
     then
         cleanup_stale_agent
         start_ssh_agent
@@ -118,7 +118,7 @@ discover_ssh_agent()
     fi
 }
 
-start_ssh_agent() 
+start_ssh_agent()
 {
     echo "starting ssh-agent $_agent_opts"
     ssh-agent $_agent_opts > /dev/null
@@ -133,7 +133,7 @@ start_ssh_agent()
     fi
 }
 
-setup_plist() 
+setup_plist()
 {
     _envdir="$HOME/.MacOSX"
 
@@ -174,7 +174,7 @@ EOXML
     ) > $_plist
 }
 
-cleanup_stale_agent() 
+cleanup_stale_agent()
 {
     # check the environment variable SSH_AGENT_PID as it could be set
     # despite the ssh-agent process being missing.
