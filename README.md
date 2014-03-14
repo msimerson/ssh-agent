@@ -3,6 +3,8 @@
 A bash script that autoloads the ssh-agent and keys into each terminal session
 of a workstation, significantly reducing the complexity of using ssh-agent.
 
+Used and tested on Mac OS X, FreeBSD, and Linux computers. Should work on any
+UNIXy host with OpenSSH installed.
 
 # INSTALL
 
