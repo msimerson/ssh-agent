@@ -10,7 +10,7 @@ UNIXy host with OpenSSH installed.
 
 1. Install to $HOME/.ssh directory as agent.sh
 
-        curl -o .ssh/agent.sh https://github.com/msimerson/ssh-agent/blob/master/agent.sh
+        curl -L -o .ssh/agent.sh https://github.com/msimerson/ssh-agent/raw/master/agent.sh
         chmod 755 .ssh/agent.sh
 
 2. Run it when new terminal windows open
