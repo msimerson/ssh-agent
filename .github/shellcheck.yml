@@ -1,0 +1,6 @@
+on: [ pull_request ]
+
+- name: Shellcheck Action
+  uses: fearphage/shellcheck-action@0.1.0-debug1
+
+
