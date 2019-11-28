@@ -27,8 +27,7 @@ _sockfile="${HOME}/.ssh/agent.sock"
 
 is_login_shell_bash()
 {
-    expr "$SHELL" : '.*bash' >> /dev/null
-    if [ $? -eq 0 ]; then
+    if expr "$SHELL" : '.*bash' >> /dev/null; then
         # echo "yes"
         return 0
     else
@@ -66,7 +65,7 @@ main()
     # 2. ssh-agent is running but...
     #
     # SSH_AGENT_PID is set but different than running ssh-agent pid
-    if [ ! -z "$SSH_AGENT_PID" ] && [ "$SSH_AGENT_PID" -ne "${_agent_pid}" ];
+    if [ -n "$SSH_AGENT_PID" ] && [ "$SSH_AGENT_PID" -ne "${_agent_pid}" ];
     then
         cleanup_stale_agent
         discover_ssh_agent
@@ -195,13 +194,13 @@ cleanup_stale_agent()
 {
     # check the environment variable SSH_AGENT_PID as it could be set
     # despite the ssh-agent process being missing.
-    if [ ! -z "$SSH_AGENT_PID" ];
+    if [ -n "$SSH_AGENT_PID" ];
     then
         echo "cleaning stale SSH_AGENT_PID: $SSH_AGENT_PID"
         unset SSH_AGENT_PID
     fi
 
-    if [ ! -z "$SSH_AUTH_SOCK" ];
+    if [ -n "$SSH_AUTH_SOCK" ];
     then
         echo "cleaning stale SSH_AUTH_SOCK"
         unset SSH_AUTH_SOCK
