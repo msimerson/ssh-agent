@@ -8,29 +8,33 @@ UNIXy host with OpenSSH installed.
 
 # INSTALL
 
-1. Install to $HOME/.ssh directory as agent.sh
+## 1. Install to $HOME/.ssh directory as agent.sh
 
 ```sh
 curl -L -o ~/.ssh/agent.sh https://github.com/msimerson/ssh-agent/raw/master/agent.sh
 chmod 755 ~/.ssh/agent.sh
 ```
 
-2. Run it when new terminal windows open
+## 2. Run it when new terminal windows open
 
 ### bash
 
-    `echo 'source .ssh/agent.sh' >> ~/.bash\_profile`
+```sh
+echo 'source .ssh/agent.sh' >> ~/.bash\_profile
+```
 
 ### zsh
 
-    `echo '.ssh/agent.sh' >> ~/.zprofile`
+```sh
+echo '.ssh/agent.sh' >> ~/.zprofile
+```
 
-3. Open new terminal/shell sessions
+## 3. Open new terminal/shell sessions
 
-4. Enjoy
+## 4. Enjoy
 
 
-## SSH-AGENT SOCKET
+# SSH-AGENT SOCKET
 
 Setting \_sockfile is an efficiency improvement. Rather than storing the
 ssh socket file in /tmp/ssh-XXXXXXXXXX/agent.<ppid> and having to glob
@@ -44,4 +48,3 @@ choice because its default permissions (600) are readable only by you.
 
 If you wish to keep the default /tmp behavior, comment out the \_sockfile setting.
 
-## end
