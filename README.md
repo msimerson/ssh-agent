@@ -1,6 +1,6 @@
 # ssh-agent
 
-A bash script that autoloads the ssh-agent and keys into each terminal session
+A shell script that autoloads the ssh-agent and keys into each terminal session
 of a workstation, significantly reducing the complexity of using ssh-agent.
 
 Used and tested on Mac OS X, FreeBSD, and Linux computers. Should work on any
@@ -10,12 +10,20 @@ UNIXy host with OpenSSH installed.
 
 1. Install to $HOME/.ssh directory as agent.sh
 
-        curl -L -o .ssh/agent.sh https://github.com/msimerson/ssh-agent/raw/master/agent.sh
-        chmod 755 .ssh/agent.sh
+```sh
+curl -L -o ~/.ssh/agent.sh https://github.com/msimerson/ssh-agent/raw/master/agent.sh
+chmod 755 ~/.ssh/agent.sh
+```
 
 2. Run it when new terminal windows open
 
-        echo 'source .ssh/agent.sh' >> ~/.bash\_profile
+### bash
+
+    `echo 'source .ssh/agent.sh' >> ~/.bash\_profile`
+
+### zsh
+
+    `echo '.ssh/agent.sh' >> ~/.zprofile`
 
 3. Open new terminal/shell sessions
 

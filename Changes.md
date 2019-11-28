@@ -1,6 +1,11 @@
 
 # VERSION - CHANGES
 
+### 1.06 - Nov 27, 2019
+
+* SC2086, quote strings
+* Update README with zsh instructions
+
 ### 1.05 - Nov 12, 2013
 
 * use TMPDIR if defined, default to /tmp (was hard coded /tmp)
@@ -16,10 +21,9 @@
 
 ### 1.02 - Dec 16, 2007
 
-* adjusted ps invocation for reliable detection when multiple 
-* users run ssh-agent on a single system
+* adjusted ps invocation for reliable detection when multiple users run ssh-agent on a single system
 
-### 1.01 - Oct 9, 2007 
+### 1.01 - Oct 9, 2007
 
 * when cleaning up stale agent, remove stale sock file
 

@@ -25,7 +25,19 @@ TMPDIR=${1-/tmp}
 # See README file, SSH-AGENT SOCKET note
 _sockfile="${HOME}/.ssh/agent.sock"
 
-if [ "$0" != "-bash" ] && [ "$0" != "-zsh" ];
+is_login_shell_bash()
+{
+    expr "$SHELL" : '.*bash' >> /dev/null
+    if [ $? -eq 0 ]; then
+        # echo "yes"
+        return 0
+    else
+        # echo "no"
+        return 1
+    fi
+}
+
+if is_login_shell_bash && [ "$0" != "-bash" ];
 then
     echo '
 OOPS! Did you mean to source this script? Try this:
@@ -34,9 +46,9 @@ OOPS! Did you mean to source this script? Try this:
 '
 fi
 
-if [ ! -z "$_sockfile" ];
+if [ -n "$_sockfile" ];
 then
-    _agent_opts="-a $_sockfile $_agent_opts"
+    _agent_opts="-s -a $_sockfile $_agent_opts"
 fi
 
 main()
@@ -66,6 +78,7 @@ main()
     then
         echo "ssh-agent socket is stale"
         kill "${_agent_pid}"   # kill ssh-agent
+        killall pgrep ssh-agent -U "$USER"
         cleanup_stale_agent
         start_ssh_agent
         return
@@ -74,10 +87,8 @@ main()
 
 set_agent_pid()
 {
-    #echo "checking for ssh-agent process"
-    _agent_pid=$(pgrep -U "$USER" ssh-agent)
-    # this is expensive but reliable
-    #_agent_pid=$(ps uwwxU "$USER" | grep ssh-agent | grep -v grep | awk '{ print $2 }' | tail -n1)
+    # echo "checking for ssh-agent process"
+    _agent_pid=$(pgrep -U "$USER" ssh-agent | tail -n1)
 }
 
 set_socket_file()
@@ -85,7 +96,7 @@ set_socket_file()
     # if _sockfile is not defined we must figure it out
     if [ -z "$_sockfile" ] || [ ! -e "$_sockfile" ];
     then
-        _sock_pid=$(echo "${_agent_pid} - 1" | bc)
+        _sock_pid=$(echo "${_agent_pid}" - 1 | bc)
         _sockfile=$(/bin/ls "$TMPDIR/ssh-*/agent.${_sock_pid}")
     fi
 
@@ -122,14 +133,19 @@ discover_ssh_agent()
 start_ssh_agent()
 {
     echo "starting ssh-agent $_agent_opts"
-    ssh-agent $_agent_opts > /dev/null
+    # shellcheck disable=SC2046,SC2086
+    eval $(ssh-agent $_agent_opts) || return
 
     discover_ssh_agent
 
-    if [ ! -z "$SSH_AUTH_SOCK" ];
+    if [ -n "$SSH_AUTH_SOCK" ];
     then
-        # this will prompt the user to authenticate their ssh key(s)
         echo "adding ssh key(s) to agent"
+        if [ "$(uname)" = "Darwin" ]; then
+            # loads SSH keys stored in OS X Keychain
+            ssh-add -A
+        fi
+        # this will prompt the user to authenticate their password protected ssh key(s)
         ssh-add
     fi
 }
