@@ -1,0 +1,17 @@
+name: Shellcheck CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+      name: git checkout
+      with:
+        fetch-depth: 1
+
+    - name: Run shellcheck
+      run: shellcheck agent.sh
+
