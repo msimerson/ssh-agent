@@ -8,13 +8,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-#   - name: Shellcheck Action
-#     uses: fearphage/shellcheck-action@0.1.0-debug1
+      name: git checkout
+      with:
+        fetch-depth: 1
 
     - name: Run shellcheck
       run: shellcheck agent.sh
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
 
