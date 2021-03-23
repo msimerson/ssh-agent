@@ -77,7 +77,7 @@ main()
     then
         echo "ssh-agent socket is stale"
         kill "${_agent_pid}"   # kill ssh-agent
-        killall pgrep ssh-agent -U "$USER"
+        killall pgrep ssh-agent
         cleanup_stale_agent
         start_ssh_agent
         return
